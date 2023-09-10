@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
+import '../home_tab/home_tab_page.dart';
+
 class HomePage extends StatefulWidget {
   static const routeName = "/home-page";
 
@@ -26,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void didChangeDependencies() {
     tabsScreen.addAll([
-      Container(),
+      const HomeTabPage(),
       Container(),
       Container(),
       Container(),
