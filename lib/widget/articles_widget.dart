@@ -1,5 +1,6 @@
 import 'package:devera_news_app/consts/styles.dart';
 import 'package:devera_news_app/models/news_model.dart';
+import 'package:devera_news_app/page/news_detail/new_detail_page.dart';
 import 'package:devera_news_app/provider/news_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -20,7 +21,9 @@ class ArticlesWidget extends StatelessWidget {
       child: Material(
         color: Theme.of(context).cardColor,
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, NewsDetailPage.routeName);
+          },
           child: Stack(
             children: [
               Container(
