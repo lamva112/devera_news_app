@@ -1,5 +1,8 @@
 import 'package:devera_news_app/consts/styles.dart';
+import 'package:devera_news_app/models/news_model.dart';
+import 'package:devera_news_app/provider/news_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../Utility/utils.dart';
 
@@ -9,6 +12,7 @@ class ArticlesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
+    NewsModel news = Provider.of<NewsModel>(context);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -40,7 +44,7 @@ class ArticlesWidget extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.network(
-                        "https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg",
+                        news.urlToImage,
                         height: size.height * 0.12,
                         width: size.height * 0.12,
                         fit: BoxFit.cover,
@@ -55,7 +59,7 @@ class ArticlesWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Tạm giữ tổng giám đốc công ty lừa mua nhà TP.HCM nhưng dẫn đi “dự án ma”",
+                            news.title,
                             style: smallTextStyle,
                             textAlign: TextAlign.justify,
                             maxLines: 2,
@@ -71,7 +75,7 @@ class ArticlesWidget extends StatelessWidget {
                               children: [
                                 const Icon(Icons.lock_clock),
                                 Text(
-                                  "less than one minutes",
+                                  news.readingTimeText,
                                   style: smallTextStyle,
                                 ),
                               ],
@@ -84,7 +88,7 @@ class ArticlesWidget extends StatelessWidget {
                                   onPressed: () {},
                                   icon: const Icon(Icons.link,color: Colors.blue,),
                                 ),
-                                Text("23/10/2023 ON 8:15",style: smallTextStyle,),
+                                Text(news.dateToShow,style: smallTextStyle,),
                               ],
                             ),
                           ),
