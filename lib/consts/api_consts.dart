@@ -1,5 +1,5 @@
 String BASEURL = "newsapi.org";
-String API_KEY = "e97dfca95585465198a7fd8874909309";
+String API_KEY = "";
 
 String BASEURL_FIREBASE ="";
 

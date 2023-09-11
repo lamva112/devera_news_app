@@ -3,19 +3,46 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'page/home/home_page.dart';
+import 'provider/theme_provider.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    ThemeProvider themeChangeProvider = ThemeProvider();
+
+    //Fetch the current theme
+    void getCurrentAppTheme() async {
+      themeChangeProvider.setDarkTheme =
+      await themeChangeProvider.darkThemePreferences.getTheme();
+    }
+
+    @override
+    void didChangeDependencies() {
+      getCurrentAppTheme();
+      super.didChangeDependencies();
+    }
+
+
+
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) {
+          //Notify about theme changes
+          return themeChangeProvider;
+        }),
         ChangeNotifierProvider(
           create: (_) => NewsProvider(),
         ),
