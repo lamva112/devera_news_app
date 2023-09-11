@@ -2,9 +2,11 @@ import 'package:devera_news_app/consts/styles.dart';
 import 'package:devera_news_app/models/news_model.dart';
 import 'package:devera_news_app/provider/news_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import '../Utility/utils.dart';
+import '../page/news_web_view/news_web_view_page.dart';
 
 class ArticlesWidget extends StatelessWidget {
   const ArticlesWidget({super.key});
@@ -18,7 +20,7 @@ class ArticlesWidget extends StatelessWidget {
       child: Material(
         color: Theme.of(context).cardColor,
         child: GestureDetector(
-          onTap: (){},
+          onTap: () {},
           child: Stack(
             children: [
               Container(
@@ -85,10 +87,24 @@ class ArticlesWidget extends StatelessWidget {
                             child: Row(
                               children: [
                                 IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.link,color: Colors.blue,),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        child: NewsWebViewPage(url: news.url,),
+                                        type: PageTransitionType.rightToLeft,
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.link,
+                                    color: Colors.blue,
+                                  ),
                                 ),
-                                Text(news.dateToShow,style: smallTextStyle,),
+                                Text(
+                                  news.dateToShow,
+                                  style: smallTextStyle,
+                                ),
                               ],
                             ),
                           ),
