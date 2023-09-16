@@ -2,6 +2,7 @@ import 'package:devera_news_app/consts/styles.dart';
 import 'package:devera_news_app/models/news_model.dart';
 import 'package:devera_news_app/page/news_detail/new_detail_page.dart';
 import 'package:devera_news_app/provider/news_provider.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class ArticlesWidget extends StatelessWidget {
         color: Theme.of(context).cardColor,
         child: GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, NewsDetailPage.routeName);
+            Navigator.pushNamed(context, NewsDetailPage.routeName, arguments: news);
           },
           child: Stack(
             children: [
@@ -46,13 +47,26 @@ class ArticlesWidget extends StatelessWidget {
                 margin: const EdgeInsets.all(10),
                 child: Row(
                   children: [
+                    // ClipRRect(
+                    //   borderRadius: BorderRadius.circular(12),
+                    //   child: Image.network(
+                    //     news.urlToImage,
+                    //     height: size.height * 0.12,
+                    //     width: size.height * 0.12,
+                    //     fit: BoxFit.cover,
+                    //   ),
+                    // ),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: Image.network(
-                        news.urlToImage,
-                        height: size.height * 0.12,
-                        width: size.height * 0.12,
-                        fit: BoxFit.cover,
+                      child: Hero(
+                        tag: news.publishedAt,
+                        child: FancyShimmerImage(
+                          height: size.height * 0.12,
+                          width: size.height * 0.12,
+                          imageUrl: news.urlToImage,
+                          boxFit: BoxFit.fill,
+                          errorWidget: Image.asset("assets/images/empty_image.png"),
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -94,7 +108,9 @@ class ArticlesWidget extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       PageTransition(
-                                        child: NewsWebViewPage(url: news.url,),
+                                        child: NewsWebViewPage(
+                                          url: news.url,
+                                        ),
                                         type: PageTransitionType.rightToLeft,
                                       ),
                                     );

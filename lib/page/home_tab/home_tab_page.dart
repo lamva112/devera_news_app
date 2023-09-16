@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../widget/articles_widget.dart';
 import '../../widget/empty_screen.dart';
+import '../../widget/loading_widget.dart';
 
 class HomeTabPage extends StatefulWidget {
   const HomeTabPage({super.key});
@@ -74,7 +75,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
               future: newProvider.fetchAllNews(sortBy: sortBy),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return LoadingWidget();
                 } else if (snapshot.hasError) {
                   return Expanded(
                     child: EmptyNewWidget(

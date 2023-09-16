@@ -1,7 +1,7 @@
 String BASEURL = "newsapi.org";
 String API_KEY = "e97dfca95585465198a7fd8874909309";
 
-String BASEURL_FIREBASE ="";
+String BASEURL_FIREBASE ="devera-news-app-default-rtdb.asia-southeast1.firebasedatabase.app";
 
 String WEATHER_API = "";
 

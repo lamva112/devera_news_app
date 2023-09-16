@@ -1,9 +1,14 @@
 import 'package:devera_news_app/consts/styles.dart';
+import 'package:devera_news_app/models/news_model.dart';
+import 'package:devera_news_app/provider/bookmarks_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../Utility/utils.dart';
+import '../../services/global_methods.dart';
 
 class NewsDetailPage extends StatefulWidget {
   static const routeName = "/NewsDetailScreen";
@@ -15,9 +20,20 @@ class NewsDetailPage extends StatefulWidget {
 }
 
 class _NewsDetailPageState extends State<NewsDetailPage> {
+  late NewsModel newsModel;
+  @override
+  void didChangeDependencies() {
+    try{
+      newsModel = ModalRoute.of(context)!.settings.arguments as NewsModel;
+    }catch (e){
+      print("get news error ${e}");
+    }
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     final color = Utils(context).getColor;
+    final bookmarksProvider = Provider.of<BookmarksProvider>(context);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -31,7 +47,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         centerTitle: true,
         title: Text(
-          "By Bùi Khắc Lam",
+          "By ${newsModel.authorName}",
           textAlign: TextAlign.center,
           style: TextStyle(color: color),
         ),
@@ -44,7 +60,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Chủ biệt thự dát vàng Thiện 'Soi' bị tuyên phạt 15 năm 6 tháng tù",
+                  newsModel.title,
                   textAlign: TextAlign.justify,
                   style: titleTextStyle,
                 ),
@@ -54,12 +70,12 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                     children: [
                       Expanded(
                         child: Text(
-                          "23/10/2024",
+                          newsModel.dateToShow,
                           style: smallTextStyle,
                         ),
                       ),
                       Text(
-                        "less than a minutes",
+                        newsModel.readingTimeText,
                         style: smallTextStyle,
                       )
                     ],
@@ -73,7 +89,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 25),
                 child: Image.network(
-                  "https://static-images.vnncdn.net/files/publish/2023/9/11/w-tuyen-an-thien-soi-1-1261.jpg",
+                  newsModel.urlToImage,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -82,27 +98,41 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                 right: 10,
                 child: Row(
                   children: [
-                    Card(
-                      elevation: 10,
-                      shape: const CircleBorder(),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          IconlyLight.send,
-                          size: 28,
-                          color: color,
+                    GestureDetector(
+                      onTap: () async {
+                        try {
+                          await Share.share(newsModel.url);
+                        }catch (e){
+                          GlobalMethods.errorDialog(errorMessage: e.toString(), context: context);
+                        }
+                      },
+                      child: Card(
+                        elevation: 10,
+                        shape: const CircleBorder(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            IconlyLight.send,
+                            size: 28,
+                            color: color,
+                          ),
                         ),
                       ),
                     ),
-                    Card(
-                      elevation: 10,
-                      shape: const CircleBorder(),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          IconlyLight.bookmark,
-                          size: 28,
-                          color: color,
+                    GestureDetector(
+                      onTap: (){
+                        bookmarksProvider.addToBookMark(news: newsModel);
+                      },
+                      child: Card(
+                        elevation: 10,
+                        shape: const CircleBorder(),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            IconlyLight.bookmark,
+                            size: 28,
+                            color: color,
+                          ),
                         ),
                       ),
                     )
@@ -128,7 +158,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                   ),
                 ),
                 SelectableText(
-                  "Hội đồng xét xử nhận định bị cáo Thiện “Soi” và con trai không bị oan, mặc dù biết hành vi cho vay lãi nặng là vi phạm pháp luật nhưng vì hám lợi, muốn kiếm tiền nhanh chóng nên vẫn cố ý thực hiện.",
+                  newsModel.description,
                   style: GoogleFonts.roboto(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,
@@ -147,7 +177,7 @@ class _NewsDetailPageState extends State<NewsDetailPage> {
                   ),
                 ),
                 SelectableText(
-                  "Cụ thể, toà tuyên phạt bị cáo Thiện “Soi” 2 năm 6 tháng tù về tội Cho vay lãi nặng trong giao dịch dân sự và 13 năm tù về tội Rửa tiền. Tổng hợp hình phạt chung là 15 năm 6 tháng tù.",
+                  newsModel.content,
                   style: GoogleFonts.roboto(
                     fontSize: 18,
                     fontWeight: FontWeight.normal,

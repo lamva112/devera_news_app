@@ -5,6 +5,7 @@ import '../models/news_model.dart';
 
 class NewsProvider with ChangeNotifier {
   List<NewsModel> _newsList = [];
+  List<NewsModel> _trendingList = [];
 
   List<NewsModel> get getNewsList {
     return _newsList;
@@ -15,4 +16,8 @@ class NewsProvider with ChangeNotifier {
     return _newsList;
   }
 
+  Future<List<NewsModel>> fetchTopHeadline() async {
+    _trendingList = await NewsApiService.getTopHeadLine();
+    return _trendingList;
+  }
 }

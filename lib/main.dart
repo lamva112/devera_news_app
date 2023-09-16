@@ -1,4 +1,5 @@
 import 'package:devera_news_app/page/news_detail/new_detail_page.dart';
+import 'package:devera_news_app/provider/bookmarks_provider.dart';
 import 'package:devera_news_app/provider/news_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,6 +47,9 @@ class _MyAppState extends State<MyApp> {
         }),
         ChangeNotifierProvider(
           create: (_) => NewsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => BookmarksProvider(),
         ),
       ],
       child: MaterialApp(

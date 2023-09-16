@@ -65,8 +65,8 @@ class _NewsWebViewPageState extends State<NewsWebViewPage> {
             ),
             Expanded(
               child: WebView(
-                initialUrl: "https://flutter.dev/",
-                //initialUrl: widget.url,
+                //initialUrl: "https://flutter.dev/",
+                initialUrl: widget.url,
                 zoomEnabled: true,
                 onProgress: (value) {
                   setState(() {

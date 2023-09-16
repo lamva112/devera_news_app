@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "929878449130",
+    "project_id": "devera-news-app",
+    "storage_bucket": "devera-news-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929878449130:android:0da45a7eb134fef1f4f093",
+        "android_client_info": {
+          "package_name": "com.example.devera_news_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaX7alRLQwOkCMLUQbP0EeOxK6Un0emvo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
